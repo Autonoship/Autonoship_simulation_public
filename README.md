@@ -114,7 +114,7 @@ The osp_ros_demo package keeps all other functions same to the raw FMU simulatio
 
     roslaunch osp_ros_demo osp_autonoship_gazebo.launch scenario:=scenario1
 
-To test the path planning module and OSP simulation based on FMUs provided by TG1 members, run:
+To test the path planning module and OSP simulation based on FMUs provided by USC members, run:
 
     roslaunch osp_ros_demo osp_autonoship_gazebo.launch scenario:=scenario18 spawn_land:=true
 
