@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<simulators>
+    <simulator name="ship_dynamics" decimationFactor="100">
+        <variable name="x"/>
+        <variable name="y"/>
+    </simulator>
+    <simulator name="autopilot">
+        <variable name="delta"/>
+    </simulator>
+</simulators>
+
+
+
+
+<OspSystemStructure
+        xmlns="http://opensimulationplatform.com/MSMI/OSPSystemStructure"
+        version="0.1">
+    <StartTime>0.0</StartTime>
+    <BaseStepSize>0.01</BaseStepSize>
+    <Algorithm>fixedStep</Algorithm>
+    
+    <Simulators>
+        <Simulator name="ship_dynamics" source="fmu/ShipWareDynamics.fmu" stepSize="0.001">
+            <InitialValues>
+                <InitialValue variable="dphi0">
+                    <Real value="0.0"/>
+                </InitialValue>
+                <InitialValue variable="phi0">
+                    <Real value="0.0"/>
+                </InitialValue>
+                <InitialValue variable="u0">
+                    <Real value="0.0"/>
+                </InitialValue>
+                <InitialValue variable="x0">
+                    <Real value="0.0"/>
+                </InitialValue>
+                <InitialValue variable="y0">
+                    <Real value="0.0"/>
+                </InitialValue>
+            </InitialValues>
+        </Simulator>
+        <Simulator name="autopilot" source="fmu/nonlinear_controller.fmu" stepSize="0.001"/>
+        <Simulator name="thrust_PID" source="fmu/thrust_PID_controller.fmu" stepSize="0.001">
+            <InitialValues>
+                <InitialValue variable="D.Value">
+                    <Real value="1.0"/>
+                </InitialValue>
+                <InitialValue variable="I.Value">
+                    <Real value="0.1"/>
+                </InitialValue>
+                <InitialValue variable="P.Value">
+                    <Real value="1000.0"/>
+                </InitialValue>
+                <InitialValue variable="lower_saturation">
+                    <Real value="0.0"/>
+                </InitialValue>
+                <InitialValue variable="upper_saturation">
+                    <Real value="1000.0"/>
+                </InitialValue>
+            </InitialValues>
+        </Simulator>
+    </Simulators>
+    
+
+    <Functions> 
+        <LinearTransformation name="negate" factor="-1" offset="0"/>
+    </Functions>
+
+    
+    <Connections>
+<!-- -->
+        <VariableConnection>
+            <Variable simulator="ship_dynamics" name="u"/>
+            <Variable simulator="thrust_PID" name="speed_feedback"/>
+        </VariableConnection>
+        <VariableConnection>
+            <Variable simulator="thrust_PID" name="thrust"/>
+            <Variable simulator="ship_dynamics" name="target_u"/>
+        </VariableConnection>
+
+        <VariableConnection>
+            <Variable simulator="autopilot" name="course_feedback"/>
+            <Variable simulator="ship_dynamics" name="psi"/>
+        </VariableConnection>
+        <SignalConnection>
+            <Variable simulator="autopilot" name="delta"/>
+            <Signal function="negate" name="in"/>
+        </SignalConnection>
+        <SignalConnection>
+            <Variable simulator="ship_dynamics" name="delta"/>
+            <Signal function="negate" name="out"/>
+        </SignalConnection>
+
+     
+<!-- 
+        <VariableGroupConnection>
+            <VariableGroup simulator="ship_dynamics" name="linear_speed"/>
+            <VariableGroup simulator="thrust_PID" name="speed_feedback"/>
+        </VariableGroupConnection>
+
+        <VariableGroupConnection>
+            <VariableGroup simulator="thrust_PID" name="thrust"/>
+            <VariableGroup simulator="ship_dynamics" name="target_speed_input"/>
+        </VariableGroupConnection>
+-->
+<!--        
+        <SignalGroupConnection>
+            <VariableGroup simulator="autopilot" name="u1"/>
+            <SignalGroup function="negate" name="in"/>
+        </SignalGroupConnection>
+        <SignalGroupConnection>
+            <VariableGroup simulator="ship_dynamics" name="u1_input"/>
+            <SignalGroup function="negate" name="out"/>
+        </SignalGroupConnection>
+-->
+
+    </Connections>
+    
+    
+</OspSystemStructure>
+

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="AUTONOSHIP">
+
+  <!-- Defines the base vehicle -->
+  <xacro:if value="$(arg ownship)">
+    <xacro:include filename="$(find autonoship_simulation)/urdf/container_ship.xacro" />  
+  </xacro:if>
+  <xacro:unless value="$(arg ownship)">
+    <xacro:include filename="$(find autonoship_simulation)/urdf/container_ship_noradar.xacro" />  
+  </xacro:unless>
+
+
+
+
+  <!-- Attach hydrodynamics plugin -->
+
+  <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/OSP_gazebo_dynamics_plugin.xacro" />
+  <xacro:OSP_dynamics_gazebo name="OSP_dynamics_plugin"/>
+
+  <!--
+  <xacro:if value="$(arg ownship)">
+    <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/OSP_gazebo_dynamics_plugin.xacro" />
+    <xacro:OSP_dynamics_gazebo name="OSP_dynamics_plugin"/>
+  </xacro:if>
+  <xacro:unless value="$(arg ownship)">
+    <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_dynamics_plugin.xacro" />
+    <xacro:autonoship_dynamics_gazebo name="autonoship_dynamics_plugin"/>
+  </xacro:unless>
+  -->
+
+
+<!--  
+  <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_dynamics_plugin.xacro" />
+  <xacro:autonoship_dynamics_gazebo name="autonoship_dynamics_plugin"/>
+-->
+<!--
+  <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/FMI_gazebo_dynamics_plugin.xacro" />
+  <xacro:FMI_dynamics_gazebo name="FMI_dynamics_plugin"/>
+-->
+
+
+
+
+
+
+  <!-- Attach radar plugin -->
+  <xacro:if value="$(arg radar)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_radar_plugin.xacro" />
+      <xacro:autonoship_radar name="autonoship_radar"/>  
+  </xacro:if>
+
+  <!-- Attach front camera plugin --> 
+  <xacro:if value="$(arg front_camera)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_camera_plugin.xacro" />
+      <xacro:autonoship_camera name="autonoship_front_camera">
+      </xacro:autonoship_camera>
+  </xacro:if>
+
+  <!-- Attach GPS plugin -->    
+  <xacro:if value="$(arg gps)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_gps_plugin.xacro" />
+      <xacro:autonoship_gps name="gps" latitude="40" longitude="150" altitude="5">
+        <origin xyz="0.2 0.0 2.5" rpy="0 0 0" />
+      </xacro:autonoship_gps>
+  </xacro:if>
+
+  <!-- Attach IMU plugin -->    
+  <xacro:if value="$(arg imu)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/autonoship_gazebo_imu_plugin.xacro" />
+      <xacro:autonoship_imu name="imu">
+        <origin xyz="0.2 0.0 2.0" rpy="0 0 0" />
+      </xacro:autonoship_imu>
+  </xacro:if>
+
+
+
+
+
+
+
+<!-- all modules following are not applied, they come from the robotx project -->
+
+  <!-- Attach wind plugin -->
+  <xacro:if value="$(arg wind)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/wamv_gazebo_wind_plugin.xacro" />
+      <xacro:usv_wind_gazebo name="wamv_wind_plugin"/>
+  </xacro:if>
+
+  <!-- Attach thrust plugin -->
+<!--
+  <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/wamv_gazebo_thrust_plugin.xacro" />
+  <xacro:usv_thrust_gazebo name="wamv_thrust_plugin"/>
+-->
+
+
+  <!-- Attach LiDAR plugin -->
+  <xacro:if value="$(arg lidar)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/wamv_gazebo_lidar_plugin.xacro" />
+      <xacro:wamv_HDL32E_lidar parent="base_link" name="velodyne" topic="/velodyne_points" hz="8" samples="1800" min_range="0" max_range="50.0" min_angle="-3.14" max_angle="3.14" noise="0.01">
+        <origin xyz="0.3 0 1.8" rpy="0 0 -1.57" />
+      </xacro:wamv_HDL32E_lidar>
+  </xacro:if>
+
+  <!-- Attach p3d odometry plugin -->
+  <xacro:if value="$(arg p3d)">
+      <xacro:include filename="$(find autonoship_simulation)/autonoship_gazebo/urdf/wamv_gazebo_p3d_plugin.xacro" />
+      <xacro:wamv_p3d name="wamv_p3d">
+      </xacro:wamv_p3d>
+  </xacro:if> 
+
+</robot>

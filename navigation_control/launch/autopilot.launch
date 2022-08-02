@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="autopilot" default="nonlinear"/>s
+  <arg name="step_size" default="0.001" />
+  <node name="autopilot" pkg="navigation_control" type="autopilot" >
+    <remap from="delta" to="u1" />
+    <param name="autopilot_type" value="$(arg autopilot)" />
+    <param name="fmu_path" value="$(find navigation_control)/fmu/$(arg autopilot)_controller.fmu" />
+    <param name="step_size" value="$(arg step_size)" />
+    
+    <param name="P" value="0.03" />
+    <param name="I" value="0.0001" />
+    <param name="D" value="0.0" />
+    
+  </node>
+</launch>

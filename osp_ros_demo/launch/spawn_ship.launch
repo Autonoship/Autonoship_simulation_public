@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="namespace" default="ownship" />
+  <arg name="front_camera" default="false"/>
+  <arg name="gps" default="false"/>
+  <arg name="imu" default="false"/>
+  <arg name="wind" default="false"/> 
+  <arg name="p3d" default="false"/> 
+  <arg name="radar" default="false"/> 
+  <arg name="collision_avoidance" default="false"/> 
+  <arg name="navigation_control" default="false"/> 
+  <arg name="autopilot" default="nonlinear"/> 
+  <arg name="path_plan" default="false" />
+  <arg name="target_x" default="0.0" />  <!-- goal point of path planning task -->
+  <arg name="target_y" default="0.0" />  <!-- goal point of path planning task -->
+
+  <arg name="bearing" default="0.0" />   <!-- degrees -->
+  <arg name="distance" default="0.0" />  <!--  miles  -->
+  <arg name="course" default="0.0" />    <!-- degrees -->
+  <arg name="speed" default="15.0" />    <!--  knots  -->
+
+  <arg name="x" value="$(eval cos(3.1415/180*arg('bearing')) * arg('distance') * 1852)" />
+  <arg name="y" value="$(eval -sin(3.1415/180*arg('bearing')) * arg('distance') * 1852)" />
+  <arg name="z" value="0.1" />
+  <arg name="P" value="0" />
+  <arg name="R" value="0" />
+  <arg name="Y" value="$(eval 3.1415/180 * (360 - arg('course')))" />
+
+  <arg name="ownship" default="true" />
+
+  <!-- Load robot model -->
+  <arg name="urdf" default="$(find osp_ros_demo)/xacro/autonoship_module.xacro"/>
+
+  <!-- Spawn a ship in Gazebo -->
+  <group ns="$(arg namespace)">
+    <param name="$(arg namespace)_description" command="$(find xacro)/xacro --inorder $(arg urdf) ownship:=$(arg ownship) wind:=$(arg wind) front_camera:=$(arg front_camera) lidar:=false gps:=$(arg gps) imu:=$(arg imu) p3d:=$(arg p3d) radar:=$(arg radar)"/>
+    <node name="spawn_$(arg namespace)" pkg="gazebo_ros" type="spawn_model"
+	args="-x $(arg x) -y $(arg y) -z $(arg z)
+	      -R $(arg R) -P $(arg P) -Y $(arg Y)
+	      -urdf -param $(arg namespace)_description -model $(arg namespace)"/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="$(arg namespace)_state_publisher">
+      <param name="publish_frequency" type="double" value="10.0" />
+      <remap from="robot_description" to="$(arg namespace)_description" />
+      <param name="tf_prefix" value="/$(arg namespace)"/>
+    </node>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="$(arg namespace)_joint_state_publisher">
+      <param name="publish_frequency" type="double" value="10.0" />
+      <remap from="robot_description" to="$(arg namespace)_description" />
+    </node>
+
+    <!-- velocity initialization -->
+    <node name="setpoint_pub" pkg="autonoship_simulation" type="setpoint_pub.py">
+      <param name="speed" value="$(arg speed)" />
+    </node>
+
+    <node name="radar_tracking" pkg="situation_awareness" type="radar_tracking.py">
+      <param name="nm" value="True" />
+    </node>
+
+
+    <!-- track the state of targetships with Kalman Filter -->
+    <group ns="ownship">
+      <node name="ownship_state" pkg="situation_awareness" type="target_state.py" >
+        <param name="nm" value="True" />
+      </node>
+    </group>
+
+    <group ns="targetship1">
+      <node name="targetship1_state" pkg="situation_awareness" type="target_state.py" >
+        <param name="nm" value="True" />
+      </node>
+    </group>
+
+    <group ns="targetship2">
+      <node name="targetship2_state" pkg="situation_awareness" type="target_state.py" >
+        <param name="nm" value="True" />
+      </node>
+    </group>
+
+    <group ns="targetship3">
+      <node name="targetship3_state" pkg="situation_awareness" type="target_state.py" >
+        <param name="nm" value="True" />
+      </node>
+    </group>
+
+    <node name="OSP_bridge" pkg="osp_ros_demo" type="osp_ros_demo"/>
+
+    <group if="$(arg collision_avoidance)">
+      <include file="$(find collision_avoidance)/launch/collision_avoidance_placeholder.launch" /> 
+    </group>
+    
+    <group if="$(arg path_plan)">
+      <include file="$(find path_planning)/launch/path_planning.launch" /> 
+      <include file="$(find path_following)/launch/path_following.launch" /> 
+      <node name="collision_avoidance_placeholder" pkg="collision_avoidance" type="collision_avoidance_placeholder.py" />
+    </group>
+    
+    <group if="$(arg ownship)">
+      <node name="situation_awareness" pkg="situation_awareness" type="situation_awareness.py" />
+    </group>
+    
+    
+    
+  </group>
+
+
+  
+
+
+</launch>

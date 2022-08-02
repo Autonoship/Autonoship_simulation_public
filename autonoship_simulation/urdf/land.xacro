@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+<model name="land_area" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="altitude" value="1000" />
+  <xacro:property name="scale_xy" value="1000" />
+  <xacro:property name="scale_z" value="1000" />
+  <xacro:property name="shift_y" value="1000" />
+  <xacro:property name="size" value="102500" />
+  <xacro:property name="PI" value="3.1415926535897931"/>
+    
+
+  <static>true</static>
+  <link name="land_link">
+      <visual name="land_visual">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh>
+            <uri>/home/chuanhui/ROS_test/src/create_scenario_test/models/heightmap.dae</uri>
+            <scale>${scale_xy} ${scale_xy} ${scale_z}</scale>
+          </mesh>
+        </geometry>
+      </visual>
+       
+      <collision name="land_collision">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh>
+            <uri>/home/chuanhui/ROS_test/src/create_scenario_test/models/heightmap.dae</uri>
+            <scale>${scale_xy} ${scale_xy} ${scale_z}</scale>
+          </mesh>
+        </geometry>
+        
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+
+        
+      <inertial>
+        <inertia>
+          <ixx>100000000000000000</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>100000000000000000</iyy>
+          <iyz>0</iyz>
+          <izz>100000000000000000</izz>
+        </inertia>
+        <mass>100000000000000000</mass>
+      </inertial>
+        
+  </link>
+
+  <gazebo>
+    <static>true</static>
+  </gazebo>
+
+
+</model>
+</sdf>
+
+

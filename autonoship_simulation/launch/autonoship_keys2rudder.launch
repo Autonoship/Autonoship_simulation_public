@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="autonoship_simulation" type="key_publisher.py" name="key_publisher" />
+  <node pkg="autonoship_simulation" type="keys_to_rudder.py" name="rudder_publisher" />
+</launch>

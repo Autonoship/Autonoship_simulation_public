@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+
+
+<launch>
+
+  <!-- Initial USV location and attitude-->
+  <arg name="bearing" default="0.0" />   <!-- degrees -->
+  <arg name="distance" default="0.0" />  <!--  miles  -->
+  <arg name="course" default="0.0" />    <!-- degrees -->
+  <arg name="speed" default="0.0" />       <!--  knots  -->
+
+  <!-- The switch about sensors and wind -->
+  <arg name="front_camera" default="true"/>
+  <arg name="gps" default="true"/>
+  <arg name="imu" default="true"/>
+  <arg name="lidar" default="false"/>
+  <arg name="wind" default="false"/> 
+  <arg name="p3d" default="false"/> 
+  <arg name="radar" default="true"/> 
+  <arg name="autopilot" default="nonlinear" />
+  <arg name="path_plan" default="false" />
+  <arg name="target_x" default="0.0" />
+  <arg name="target_y" default="0.0" />
+  
+  <!-- Load robot model -->
+  <arg name="urdf" default="$(find osp_ros_demo)/xacro/autonoship_module.xacro"/>
+
+  <!-- Spawn targetship_1 in Gazebo -->
+  <include file="$(find osp_ros_demo)/launch/spawn_ship.launch" >
+    <arg name="namespace" value="targetship1" />
+    <arg name="wind" value="false"/> 
+    <arg name="radar" value="false"/>
+    <arg name="ownship" value="false" />
+
+    <arg name="bearing" value="45.3" />
+    <arg name="distance" value="0.67" />
+    <arg name="course" value="350" /> 
+    <arg name="speed" value="15" />
+    
+    <arg name="path_plan" value="false" />
+    <arg name="target_x" value="0.0" />
+    <arg name="target_y" value="0.0" />
+    
+    <arg name="urdf" value="$(arg urdf)"/>
+  </include>
+
+
+  <!-- Spawn targetship_2 in Gazebo -->
+  <include file="$(find osp_ros_demo)/launch/spawn_ship.launch" >
+    <arg name="namespace" value="targetship2" />
+    <arg name="wind" value="false"/> 
+    <arg name="radar" value="false"/>
+    <arg name="ownship" value="false" />
+
+    <arg name="bearing" value="280.0" />
+    <arg name="distance" value="0.2" />
+    <arg name="course" value="10" /> 
+    <arg name="speed" value="15" />
+    
+    <arg name="path_plan" value="false" />
+    <arg name="target_x" value="0.0" />
+    <arg name="target_y" value="0.0" />
+    
+    <arg name="urdf" value="$(arg urdf)"/>
+  </include>
+
+  <!-- Spawn targetship_3 in Gazebo -->
+  <include file="$(find osp_ros_demo)/launch/spawn_ship.launch" >
+    <arg name="namespace" value="targetship3" />
+    <arg name="wind" value="false"/> 
+    <arg name="radar" value="false"/>
+    <arg name="ownship" value="false" />
+
+    <arg name="bearing" value="355.0" />
+    <arg name="distance" value="2.0" />
+    <arg name="course" value="180" /> 
+    <arg name="speed" value="15" />
+    
+    <arg name="path_plan" value="false" />
+    <arg name="target_x" value="0.0" />
+    <arg name="target_y" value="0.0" />
+    
+    <arg name="urdf" value="$(arg urdf)"/>
+  </include>
+ 
+  <!-- Spawn ownship in Gazebo -->
+  <include file="$(find osp_ros_demo)/launch/spawn_ship.launch" >
+    <arg name="namespace" value="ownship" />
+    <arg name="wind" value="false"/> 
+    <arg name="radar" value="$(arg radar)"/>
+    <arg name="front_camera" value="true"/>
+    <arg name="gps" value="true"/>
+    <arg name="imu" value="true"/>
+    <arg name="p3d" value="false"/> 
+    <arg name="ownship" value="true" />
+
+    <arg name="bearing" value="0.0" />
+    <arg name="distance" value="0.0" />
+    <arg name="course" value="0.0" /> 
+    <arg name="speed" value="15" />
+
+    <arg name="path_plan" value="$(arg path_plan)" />
+    <arg name="target_x" value="$(arg target_x)" />
+    <arg name="target_y" value="$(arg target_y)" />
+    
+    <arg name="urdf" value="$(arg urdf)"/>
+  </include>
+
+
+</launch>

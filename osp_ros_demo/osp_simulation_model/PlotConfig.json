@@ -1,0 +1,1 @@
+{"plots":[{"label":"XY plot #b00a2d0d-6db0-4251-949b-d8f53e1c5f6e","plotType":"scatter","variables":[{"simulator":"ship_dynamics","variable":"y"},{"simulator":"ship_dynamics","variable":"x"}]},{"label":"Time series #17a732ac-2344-4c56-8811-6b1d5d9394b6","plotType":"trend","variables":[{"simulator":"ship_dynamics","variable":"psi"}]}]}

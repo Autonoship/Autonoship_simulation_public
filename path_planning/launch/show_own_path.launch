@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="show_own_path" pkg="path_planning" type="show_own_path.py" >
+      <param name="chart_file" value="res_100_lon_-122.67_-122.22_lat_37.54_38.17.jpg" />
+      <param name="goal_x" value="30000" />
+      <param name="goal_y" value="-24980" />
+    </node>
+
+</launch>

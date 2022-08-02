@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="autonoship_camera" params="name">
+       
+  <!-- camera position -->
+  <xacro:property name="origin_left">
+    <origin xyz="100 0.3 55" rpy="0 0 0.785" />
+  </xacro:property>
+  <xacro:property name="origin_right">
+    <origin xyz="100 -0.3 55" rpy="0 0 -0.785" />
+  </xacro:property>
+  <xacro:property name="origin_mid">
+    <origin xyz="100 0 55" rpy="0 0 0" />
+  </xacro:property>
+
+  <xacro:property name="camera_visual">
+    <visual>
+      <origin xyz="-0.01 0 0" rpy="1.57 0 1.57"/>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </visual>
+  </xacro:property>
+
+  <xacro:property name="camera_inertial">
+    <inertial>
+      <mass value="0.1" />
+      <inertia ixx="0.000166" ixy="0.0" ixz="0.0" iyy="0.000166" iyz="0.0" izz="0.000166" />
+    </inertial>
+  </xacro:property>
+
+  <xacro:property name="camera_collision">
+    <collision>
+      <origin xyz="-0.01 0 0" rpy="1.57 0 1.57"/>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </collision>
+  </xacro:property>
+
+  <!-- left camera -->
+  <link name="left_front_camera_link">    
+    <xacro:insert_block name="camera_visual" />
+    <xacro:insert_block name="camera_inertial" />
+    <xacro:insert_block name="camera_collision" />
+  </link>
+  <joint name="left_front_camera_joint" type="fixed">
+    <xacro:insert_block name="origin_left" />
+    <parent link="base_link"/>
+    <child link="left_front_camera_link"/>
+  </joint>
+  <gazebo reference="left_front_camera_link">
+    <sensor type="camera" name="left_camera">
+      <update_rate>10.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>1080</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>1</near>
+          <far>30000</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller_front_left_front_camera" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>camera_left</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_left</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- right camera -->
+  <link name="right_front_camera_link">    
+    <xacro:insert_block name="camera_visual" />
+    <xacro:insert_block name="camera_inertial" />
+    <xacro:insert_block name="camera_collision" />
+  </link>
+  <joint name="right_front_camera_joint" type="fixed">
+    <xacro:insert_block name="origin_right" />
+    <parent link="base_link"/>
+    <child link="right_front_camera_link"/>
+  </joint>
+  <gazebo reference="right_front_camera_link">
+    <sensor type="camera" name="right_camera">
+      <update_rate>10.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>1080</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>1</near>
+          <far>30000</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller_front_right_front_camera" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>camera_right</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_right</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>  
+
+
+  <!-- mid camera -->
+  <link name="mid_front_camera_link">    
+    <xacro:insert_block name="camera_visual" />
+    <xacro:insert_block name="camera_inertial" />
+    <xacro:insert_block name="camera_collision" />
+  </link>
+  <joint name="mid_front_camera_joint" type="fixed">
+    <xacro:insert_block name="origin_mid" />
+    <parent link="base_link"/>
+    <child link="mid_front_camera_link"/>
+  </joint>
+  <gazebo reference="mid_front_camera_link">
+    <sensor type="camera" name="mid_camera">
+      <update_rate>10.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>1080</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>1</near>
+          <far>30000</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller_front_right_front_camera" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>camera_mid</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_mid</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>  
+ </xacro:macro>
+</robot>

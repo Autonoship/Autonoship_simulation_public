@@ -1,0 +1,16 @@
+std_msgs/Float64 time
+std_msgs/Float64 rpm
+std_msgs/Float64 target_course
+std_msgs/Float64 local_waypoint_x
+std_msgs/Float64 local_waypoint_y
+std_msgs/Float64 global_waypoint_x
+std_msgs/Float64 global_waypoint_y
+
+---
+
+std_msgs/Float64 x
+std_msgs/Float64 y
+std_msgs/Float64 psi
+std_msgs/Float64 r
+std_msgs/Float64 u
+std_msgs/Float64 v

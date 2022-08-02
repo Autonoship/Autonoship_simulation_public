@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fmiModelDescription
+  fmiVersion="2.0"
+  modelName="nonlinear_controller"
+  guid="{32b46efa-7aa5-6184-224e-1e0e4a70b1ad}"
+  description=""
+  generationTool="Simulink (R2021a)"
+  version="1.4"
+  variableNamingConvention="structured"
+  generationDateAndTime="2021-06-14T22:47:31Z"
+  numberOfEventIndicators="0">
+
+<CoSimulation
+  modelIdentifier="nonlinear_controller"
+  canBeInstantiatedOnlyOncePerProcess="true"
+  canNotUseMemoryManagementFunctions="true"
+  />
+<DefaultExperiment startTime="0" stopTime="10" stepSize="0.001"/>
+<VendorAnnotations>
+  <Tool name="Simulink">
+    <Simulink>
+      <ImportCompatibility requireRelease="all" requireMATLABOnPath="no" />
+      <SimulinkModelInterface>
+        <Inport dataType="double" portNumber="1" portName="course_feedback"/>
+        <Inport dataType="double" portNumber="2" portName="target_course"/>
+        <Outport dataType="double" portNumber="1" portName="delta"/>
+      </SimulinkModelInterface>
+    </Simulink>
+  </Tool>
+</VendorAnnotations>
+<ModelVariables>
+  <ScalarVariable name="course_feedback" valueReference="0" description="course_feedback" causality="input" variability="continuous" >
+    <Real start="0"  />
+  </ScalarVariable> <!-- index="1" -->
+  <ScalarVariable name="target_course" valueReference="1" description="target_course" causality="input" variability="continuous" >
+    <Real start="0"  />
+  </ScalarVariable> <!-- index="2" -->
+  <ScalarVariable name="delta" valueReference="2" description="delta" causality="output" variability="continuous" initial="calculated">
+    <Real  />
+  </ScalarVariable> <!-- index="3" -->
+  <ScalarVariable name="amplitude.Value" valueReference="3" description="amplitude.Value" causality="parameter" variability="tunable" initial="exact">
+    <Real start="0.02179364296869517" />
+  </ScalarVariable> <!-- index="4" -->
+  <ScalarVariable name="offset.Value" valueReference="4" description="offset.Value" causality="parameter" variability="tunable" initial="exact">
+    <Real start="70" />
+  </ScalarVariable> <!-- index="5" -->
+  <ScalarVariable name="switch_degree.Value" valueReference="5" description="switch_degree.Value" causality="parameter" variability="tunable" initial="exact">
+    <Real start="10" />
+  </ScalarVariable> <!-- index="6" -->
+  <ScalarVariable name="time" valueReference="6" description="time" causality="independent" variability="continuous" >
+    <Real  />
+  </ScalarVariable> <!-- index="7" -->
+</ModelVariables>
+<ModelStructure>
+  <Outputs>
+    <Unknown index="3" />
+  </Outputs>
+  <InitialUnknowns>
+    <Unknown index="3" />
+  </InitialUnknowns>
+</ModelStructure>
+</fmiModelDescription>
+

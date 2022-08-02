@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="autonoship_world">
+    <scene>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+    </scene>
+
+    <wind>
+      <linear_velocity>0 0 0</linear_velocity> <!-- Wind linear velocity -->
+    </wind>
+    
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <gui fullscreen='0'>
+      <camera name='gzclient_camera'>
+        <track_visual>
+          <!-- <name>observer</name> -->
+          <min_dist>1.0</min_dist>
+          <max_dist>20000.0</max_dist>
+          <static>false</static>
+        </track_visual>
+        <pose>-1000 0 5000 0 1.1 0</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
+
+    <!-- Should be at the same height as the water level in USV and buoyancy 
+    plugin configurations -->
+    <include>
+      <pose> 0 0 0 0 0 0 </pose>
+      <uri>model://models/ocean</uri>      
+    </include>
+
+    <physics name="ode50iters" type="ode" default="true">
+      <real_time_update_rate>5000</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>50</iters>
+        </solver>
+      </ode>
+    </physics>
+
+  </world>
+</sdf>

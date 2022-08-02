@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="predict_action" pkg="collision_avoidance" type="predict_action.py" />
+
+</launch>

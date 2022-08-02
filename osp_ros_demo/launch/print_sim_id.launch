@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <node name="print_sim_id" pkg="osp_ros_demo" type="print_sim_id" output="screen" >
+      <param name="local_path" value="/osp_simulation_model_TG1" />
+    </node>
+
+</launch>

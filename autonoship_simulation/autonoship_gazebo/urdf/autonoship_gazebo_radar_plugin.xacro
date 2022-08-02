@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="autonoship_radar" params="name">
+       
+  
+
+  <gazebo reference="radar_link">
+      <selfCollide>true</selfCollide>
+      <sensor name="logical_camera" type="logical_camera">
+        <logical_camera>
+          <near>10</near>
+          <far>92600</far>  <!-- 50nm -->
+          <horizontal_fov>0.035</horizontal_fov>
+          <aspect_ratio>0.1</aspect_ratio>
+        </logical_camera>
+
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <update_rate>500</update_rate>
+      </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="ros_logical_camera" filename="libautonoshipLogicalCameraPlugin.so">
+          <robotNamespace>ownship</robotNamespace>
+          <image_topic_ros>logical_camera</image_topic_ros>
+          <rpm>24.0</rpm>
+          <P>0.01</P>
+          <I>0.0</I>
+          <D>0.0</D>
+          <position_noise>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </position_noise>
+          <orientation_noise>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </orientation_noise>
+          <known_model_names>
+            <name>targetship1</name>
+            <name>targetship2</name>
+            <name>targetship3</name>
+@[for part_name, part_info in faulty_parts.items()]@
+            <name>@(part_name)</name>
+@[end for]@
+          </known_model_names>
+    </plugin>
+  </gazebo>
+
+
+
+
+
+
+
+
+ </xacro:macro>
+</robot>

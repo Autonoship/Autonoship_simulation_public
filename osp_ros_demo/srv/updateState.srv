@@ -1,0 +1,11 @@
+std_msgs/Float64 time
+std_msgs/Float64 target_speed
+std_msgs/Float64 target_course
+
+---
+
+std_msgs/Float64 phi_dot
+std_msgs/Float64 phi
+std_msgs/Float64 x
+std_msgs/Float64 y
+std_msgs/Float64 v

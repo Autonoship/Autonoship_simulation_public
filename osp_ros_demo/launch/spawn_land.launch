@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="x" value="0.0" />  <!-- meters -->
+  <arg name="y" value="35020.0" />  <!-- meters -->
+  <arg name="z" value="0.0" />  <!-- meters -->
+  <arg name="P" value="0.0" />
+  <arg name="R" value="0.0" />
+  <arg name="Y" value="0.0" />
+
+  <!-- Load robot model -->
+  <arg name="sdf" default="$(find create_scenario_test)/urdf/land.xacro"/>
+
+  <!-- Spawn the land area in Gazebo -->
+  <param name="land_description" command="$(find xacro)/xacro $(arg sdf)"/>
+  <node name="spawn_land" pkg="gazebo_ros" type="spawn_model"
+	args="-x $(arg x) -y $(arg y) -z $(arg z)
+	      -R $(arg R) -P $(arg P) -Y $(arg Y)
+	      -sdf -param land_description -model land_area"/>
+
+
+  <!--
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="land_state_publisher">
+    <param name="publish_frequency" type="double" value="10.0" />
+    <remap from="robot_description" to="land_description" />
+    <param name="tf_prefix" value="/land"/>
+  </node>
+
+  
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="land_joint_state_publisher">
+    <param name="publish_frequency" type="double" value="10.0" />
+    <remap from="robot_description" to="land_description" />
+  </node>
+  -->
+
+</launch>

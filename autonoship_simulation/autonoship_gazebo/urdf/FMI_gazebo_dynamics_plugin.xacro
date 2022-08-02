@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="FMI_dynamics_gazebo" params="name">
+    <!--Gazebo Plugin for simulating WAM-V dynamics-->
+    <gazebo >
+      <plugin name="FMI_dynamics_${name}" filename="libFMI_dynamics_plugin.so">
+	<!-- Added mass -->
+	<bodyName>base_link</bodyName>
+	<waterLevel>0.0</waterLevel>
+	<waterDensity>997.8</waterDensity>
+	<cmdTimeout>1.0</cmdTimeout>
+
+        <ship_dynamics>
+          <name>autonoship_FMI_dynamics</name>
+          <link>base_link</link>
+          <fmu>ShipWareDynamics.fmu</fmu>
+          <tunable_parameter>
+            <K>0.1555</K>
+            <T>73.77</T>
+            <a>0.034296296296</a>
+            <dphi0>0.0</dphi0>
+            <phi0>0.0</phi0>
+            <u0>0.0</u0>
+            <x0>0.0</x0>
+            <y0>0.0</y0>
+          </tunable_parameter>
+        </ship_dynamics>
+
+	<boatArea>10000</boatArea>
+	<boatWidth>62</boatWidth>
+	<boatLength>311</boatLength>
+	
+
+      </plugin>
+      </gazebo>
+  </xacro:macro>
+</robot>
