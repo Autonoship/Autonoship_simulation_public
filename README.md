@@ -4,7 +4,7 @@ Autonoship simulator based on Gazebo, ROS, FMU and Open Simulation Platform
 
 ### 1. System Requirements
 
-This simulation is built on [Ubuntu 20.04](https://releases.ubuntu.com/20.04/) and [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu). If you are looking for the Ubuntu 16.04 version, please go to [this branch](https://github.com/Autonoship/Autonoship_simulation/tree/ubuntu16.04). The Ubuntu can be either a real machine or a virtual machine.
+This simulation is built on [Ubuntu 20.04](https://releases.ubuntu.com/20.04/) and [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu). The Ubuntu can be either a real machine or a virtual machine.
 Before start, please follow the link [ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) to install ROS noetic on a Ubuntu 20.04 first.
 
 According to the link, open a terminal and run:
