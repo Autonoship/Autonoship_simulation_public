@@ -316,10 +316,10 @@ void AutonoshipOSPPlugin::UpdateChild()
   osp_ros_demo::updateState_TG1 srv;
   srv.request.time.data = simulatedTimeInSeconds - initialization_time;
   srv.request.rpm.data = rpm_;
-  srv.request.local_waypoint_x = local_x_;
-  srv.request.local_waypoint_y = local_y_;
-  srv.request.global_waypoint_x = global_x_;
-  srv.request.global_waypoint_y = global_y_;
+  srv.request.local_waypoint_x.data = local_x_;
+  srv.request.local_waypoint_y.data = local_y_;
+  srv.request.global_waypoint_x.data = global_x_;
+  srv.request.global_waypoint_y.data = global_y_;
   // srv.request.target_course.data = target_course_ - (euler_.Z() - initial_yaw);
   srv.request.target_course.data = target_course_;
 
