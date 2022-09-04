@@ -73,7 +73,7 @@ Download the /autonoship_simulation, /collision_avoidance and /usv_gazebo_plugin
     git clone https://github.com/Autonoship/Autonoship_simulation.git
     mv Autonoship_simulation/autonoship_simulation/ Autonoship_simulation/collision_avoidance/ Autonoship_simulation/navigation_control/ Autonoship_simulation/usv_gazebo_plugins/ Autonoship_simulation/osp_ros_demo/ Autonoship_simulation/path_following/ Autonoship_simulation/path_planning/ Autonoship_simulation/situation_awareness/ src
 
-    sudo apt-get install ros-noetic-hector-gazebo-plugins ros-noetic-pid ros-noetic-fmi-adapter libgsl-dev ibmsgsl-dev
+    sudo apt-get install ros-noetic-hector-gazebo-plugins ros-noetic-pid ros-noetic-fmi-adapter libgsl-dev libmsgsl-dev
 
     catkin_make
     source devel/setup.bash
